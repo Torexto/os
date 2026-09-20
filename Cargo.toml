@@ -1,0 +1,13 @@
+[package]
+name = "os"
+version = "0.1.0"
+edition = "2024"
+authors = ["Torexto"]
+
+[[bin]]
+name = "os"
+test = false
+bench = false
+
+[dependencies]
+bootloader = "0.9"
