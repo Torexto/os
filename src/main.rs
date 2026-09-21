@@ -1,8 +1,8 @@
 #![no_std]
 #![no_main]
 
-#[allow(unused)]
-use bootloader::entry_point;
+use bootloader_api::config::{BootloaderConfig, Mapping};
+use bootloader_api::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use os::OS;
 
@@ -11,7 +11,19 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn _start() -> ! {
+pub static BOOTLOADER_CONFIG: BootloaderConfig = {
+    let mut config = BootloaderConfig::new_default();
+    config.mappings.physical_memory = Some(Mapping::Dynamic);
+    config
+};
+
+fn kernel_main(_boot_info: &'static mut BootInfo) -> ! {
     OS::run();
 }
+
+entry_point!(kernel_main, config = &BOOTLOADER_CONFIG);
+
+//#[unsafe(no_mangle)]
+//pub extern "C" fn _start() -> ! {
+//    OS::run();
+//}
