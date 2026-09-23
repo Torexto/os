@@ -14,4 +14,5 @@ bootloader_api = "0.11.17"
 font8x8 = { version = "0.3.1", default-features = false, features = ["unicode"] }
 uart_16550 = "0.8.1"
 x86_64 = "0.15.2"
-spin = "0.12.3"
+lazy_static = { version = "1.5.0", default-features = false, features = ["spin_no_std"] }
+spin = "0.9.9"

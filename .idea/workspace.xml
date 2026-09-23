@@ -5,6 +5,9 @@
   </component>
   <component name="CargoProjects">
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml">
+      <package file="$PROJECT_DIR$/kernel">
+        <feature name="default" enabled="true" />
+      </package>
       <package file="$PROJECT_DIR$">
         <feature name="default" enabled="true" />
       </package>
@@ -12,15 +15,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f594e2a9-1844-4d1b-953d-bd8bf4421843" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/interrupts/gdt.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/interrupts/idt.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/interrupts/mod.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/memory/mod.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/memory/paging.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/serial.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vga_buffer.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/os.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/os.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kernel/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/kernel/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kernel/src/interrupts/gdt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/kernel/src/interrupts/gdt.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kernel/src/interrupts/idt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/kernel/src/interrupts/idt.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kernel/src/interrupts/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/kernel/src/interrupts/mod.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +30,6 @@
   </component>
   <component name="EmbeddingIndexingInfo">
     <option name="cachedIndexableFilesCount" value="13" />
-    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:dev" />
   <component name="FileTemplateManagerImpl">
@@ -40,8 +40,26 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="INCOMING_COMMITS_CHECK_STRATEGY" value="FETCH" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Torexto&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Torexto/os.git&quot;,
+    &quot;accountId&quot;: &quot;4c1ff1a1-8439-462a-83b5-256f1aa6f2fb&quot;
+  }
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="n11KhORb" />
   </component>
@@ -51,61 +69,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0002608934614032" />
-      <entry key="S2" value="1.2351728842435217" />
-      <entry key="S5" value="3.0044746848424264" />
-      <entry key="S10" value="6.487472917738536" />
-      <entry key="S30" value="16.007265786035276" />
-      <entry key="S60" value="24.82946927567982" />
-      <entry key="M2" value="35.11772657893349" />
-      <entry key="M5" value="46.95883319761187" />
-      <entry key="M10" value="52.76668156276372" />
-      <entry key="M15" value="54.99952354323681" />
-      <entry key="M30" value="57.40499464240128" />
-      <entry key="H1" value="58.677678760638756" />
-      <entry key="H2" value="59.33248736874197" />
-      <entry key="H4" value="59.664636835143554" />
-      <entry key="D1" value="59.94388134589364" />
-      <entry key="W1" value="59.99197752301207" />
+      <entry key="MS100" value="5.710023425192491E-7" />
+      <entry key="MS500" value="0.056406295647132634" />
+      <entry key="S2" value="0.5054138887871161" />
+      <entry key="S5" value="1.7449976053264749" />
+      <entry key="S10" value="5.061863235479052" />
+      <entry key="S30" value="12.365064796487198" />
+      <entry key="S60" value="16.281618840611785" />
+      <entry key="M2" value="20.97784484386193" />
+      <entry key="M5" value="28.98110679033522" />
+      <entry key="M10" value="39.34555682618982" />
+      <entry key="M15" value="49.99953406180236" />
+      <entry key="M30" value="74.0984359315165" />
+      <entry key="H1" value="96.89967256672873" />
+      <entry key="H2" value="112.86182854414494" />
+      <entry key="H4" value="122.34352523724914" />
+      <entry key="D1" value="131.1361059384593" />
+      <entry key="W1" value="132.73149250798423" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="2.27527758390977E-80" />
-      <entry key="S2" value="1.8680416296898517E-20" />
-      <entry key="S5" value="1.9265714680411528E-8" />
-      <entry key="S10" value="1.9595798629992118E-4" />
-      <entry key="S30" value="0.09216690299585815" />
-      <entry key="S60" value="0.4293206035431476" />
-      <entry key="M2" value="0.9266178713754906" />
-      <entry key="M5" value="1.4702020373831604" />
-      <entry key="M10" value="1.71475982656737" />
-      <entry key="M15" value="1.80500670403461" />
-      <entry key="M30" value="1.9000034274911395" />
-      <entry key="H1" value="1.9493606013350675" />
-      <entry key="H2" value="1.9745179606117422" />
-      <entry key="H4" value="1.987218134646268" />
-      <entry key="D1" value="1.997863993840511" />
-      <entry key="W1" value="1.9996947164958208" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000031023315" />
+      <entry key="S2" value="1.0074677077822083" />
+      <entry key="S5" value="1.1514260083570975" />
+      <entry key="S10" value="1.5185475365293368" />
+      <entry key="S30" value="2.604976368695513" />
+      <entry key="S60" value="3.499742314616398" />
+      <entry key="M2" value="4.661173196517025" />
+      <entry key="M5" value="6.488300178013287" />
+      <entry key="M10" value="8.033694990901294" />
+      <entry key="M15" value="8.957698802169983" />
+      <entry key="M30" value="10.407139561058038" />
+      <entry key="H1" value="11.495850590931926" />
+      <entry key="H2" value="12.184155839612435" />
+      <entry key="H4" value="12.57432590434222" />
+      <entry key="D1" value="12.926416666029475" />
+      <entry key="W1" value="12.989421118427185" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="6.922096462794039E-11" />
-      <entry key="MS500" value="0.009458862720202178" />
-      <entry key="S2" value="0.5153951986685749" />
-      <entry key="S5" value="2.529632663736057" />
-      <entry key="S10" value="6.159197337862266" />
-      <entry key="S30" value="15.92563704584092" />
-      <entry key="S60" value="25.14092241851646" />
-      <entry key="M2" value="35.967249343239" />
-      <entry key="M5" value="48.39013813520707" />
-      <entry key="M10" value="54.46008284896378" />
-      <entry key="M15" value="56.78980883917999" />
-      <entry key="M30" value="59.29737962009545" />
-      <entry key="H1" value="60.62316237646974" />
-      <entry key="H2" value="61.30504946039854" />
-      <entry key="H4" value="61.650872635414316" />
-      <entry key="D1" value="61.9415810014374" />
-      <entry key="W1" value="61.991648747462" />
+      <entry key="MS100" value="0.01023792201104682" />
+      <entry key="MS500" value="0.45431410066300904" />
+      <entry key="S2" value="1.301329445981059" />
+      <entry key="S5" value="2.7710946299952957" />
+      <entry key="S10" value="6.457907590993372" />
+      <entry key="S30" value="14.874952845239202" />
+      <entry key="S60" value="19.71475574649259" />
+      <entry key="M2" value="25.593708387201605" />
+      <entry key="M5" value="35.443380625156" />
+      <entry key="M10" value="47.362064587192705" />
+      <entry key="M15" value="58.94337051068029" />
+      <entry key="M30" value="84.49610945180875" />
+      <entry key="H1" value="108.38962527416426" />
+      <entry key="H2" value="125.04263144191695" />
+      <entry key="H4" value="134.91605509617878" />
+      <entry key="D1" value="144.06220481598788" />
+      <entry key="W1" value="145.7208677502814" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -119,6 +137,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "CidrDebugProfileConversion": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -128,17 +147,22 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/torexto/RustroverProjects/os",
+    "git-widget-placeholder": "dev",
+    "git.auto.fetch.suggestion.counter": "1",
+    "last_opened_file_path": "/home/torexto/.rustup",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
     "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "language.rust.rustfmt",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
   }
 }]]></component>
   <component name="RunManager" selected="Cargo.Run os">
@@ -179,7 +203,7 @@
     </configuration>
   </component>
   <component name="RustProjectSettings">
-    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+    <option name="toolchainHomeDirectory" value="/usr/bin" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -196,5 +220,20 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

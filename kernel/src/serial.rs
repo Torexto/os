@@ -1,17 +1,17 @@
 use core::fmt;
-
-use spin::LazyLock;
+use lazy_static::lazy_static;
+use spin::Mutex;
 use uart_16550::{Config, Uart16550Tty, backend::PioBackend};
 
-use spin::Mutex;
-
-pub static SERIAL: LazyLock<Mutex<Uart16550Tty<PioBackend>>> = LazyLock::new(|| {
-    let serial_port = unsafe {
-        Uart16550Tty::new_port(0x3F8, Config::default())
-            .expect("should initialize serial device from valid config and valid port")
+lazy_static! {
+    static ref SERIAL: Mutex<Uart16550Tty<PioBackend>> = {
+        let serial_port = unsafe {
+            Uart16550Tty::new_port(0x3F8, Config::default())
+                .expect("should initialize serial device from valid config and valid port")
+        };
+        Mutex::new(serial_port)
     };
-    Mutex::new(serial_port)
-});
+}
 
 #[doc(hidden)]
 pub fn _print(args: fmt::Arguments) {
