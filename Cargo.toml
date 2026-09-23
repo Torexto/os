@@ -1,13 +1,16 @@
+[workspace]
+resolver = "3"
+members = ["kernel"]
+
 [package]
 name = "os"
 version = "0.1.0"
 edition = "2024"
-authors = ["Torexto"]
-
-[[bin]]
-name = "os"
-test = false
-bench = false
 
 [dependencies]
-bootloader_api = "0.11.17"
+clap = "4.6.7"
+ovmf-prebuilt = "0.2.4"
+
+[build-dependencies]
+kernel = { path = "kernel", artifact = "bin", target = "x86_64-unknown-none" }
+bootloader = "0.11.12"
