@@ -33,18 +33,6 @@ impl Kernel {
 
         serial_println!("Loaded");
 
-        #[allow(unconditional_recursion)]
-        #[inline(never)]
-        fn stack_overflow() {
-            let mut stack_marker = 0_u8;
-            stack_overflow();
-            // Keep work after the recursive call so optimized builds cannot turn
-            // this demonstration into a tail-call loop.
-            unsafe { core::ptr::write_volatile(&mut stack_marker, 1) };
-        }
-
-        stack_overflow();
-
         if let Some(framebuffer) = boot_info.framebuffer.as_mut() {
             let info = framebuffer.info();
             let buffer = framebuffer.buffer_mut();

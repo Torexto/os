@@ -36,8 +36,7 @@ extern "x86-interrupt" fn page_fault_handler(
 }
 
 extern "x86-interrupt" fn breakpoint_handler(stack_frame: InterruptStackFrame) {
-    serial_println!("[EXCEPTION] Breakpoint hit!");
-    serial_println!("{:#?}", stack_frame);
+    serial_println!("[EXCEPTION] Breakpoint\n{:#?}", stack_frame);
 }
 
 extern "x86-interrupt" fn double_fault_handler(
