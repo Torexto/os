@@ -49,6 +49,8 @@ fn main() {
         .arg("isa-debug-exit,iobase=0xf4,iosize=0x04");
 
     if let BootMode::Uefi = boot_mode {
+        println!("Booting in UEFI mode using OVMF firmware");
+        println!("{uefi_path}");
         let prebuilt =
             Prebuilt::fetch(Source::LATEST, "target/ovmf").expect("failed to update prebuilt");
 
@@ -61,12 +63,13 @@ fn main() {
             "if=pflash,format=raw,unit=0,file={},readonly=on",
             code.display()
         ));
-        // copy vars and enable rw instead of snapshot if you want to store data (e.g. enroll secure boot keys)
         cmd.arg("-drive").arg(format!(
             "if=pflash,format=raw,unit=1,file={},snapshot=on",
             vars.display()
         ));
     } else {
+        println!("Booting in BIOS mode");
+        println!("{bios_path}");
         cmd.arg("-drive")
             .arg(format!("format=raw,file={bios_path}"));
     }

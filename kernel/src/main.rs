@@ -2,13 +2,13 @@
 #![no_main]
 
 use bootloader_api::config::{BootloaderConfig, Mapping};
-use bootloader_api::{entry_point, BootInfo};
+use bootloader_api::{BootInfo, entry_point};
 use core::panic::PanicInfo;
 use kernel::Kernel;
 
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
-    loop {}
+fn panic(info: &PanicInfo) -> ! {
+    Kernel::panic(info)
 }
 
 pub static BOOTLOADER_CONFIG: BootloaderConfig = {
@@ -18,7 +18,7 @@ pub static BOOTLOADER_CONFIG: BootloaderConfig = {
 };
 
 fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
-    Kernel::run(boot_info);
+    Kernel::boot(boot_info);
 }
 
 entry_point!(kernel_main, config = &BOOTLOADER_CONFIG);
