@@ -28,11 +28,11 @@ impl Kernel {
 
         serial_println!("Loading cpu structures...");
 
-        interrupts::gdt::init();
-        interrupts::idt::init();
+        interrupts::init();
 
         serial_println!("Loaded");
 
+        serial_println!("Initializing framebuffer");
         if let Some(framebuffer) = boot_info.framebuffer.as_mut() {
             let info = framebuffer.info();
             let buffer = framebuffer.buffer_mut();
@@ -54,6 +54,9 @@ impl Kernel {
             writer.write_string("Hello z Framebuffera!", &green);
         }
 
-        loop {}
+        serial_println!("Hlt loop");
+        loop {
+            x86_64::instructions::hlt();
+        }
     }
 }

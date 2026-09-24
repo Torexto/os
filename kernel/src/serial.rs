@@ -21,17 +21,22 @@ pub fn _print(args: fmt::Arguments) {
         .write_fmt(args)
         .expect("Zapis do portu szeregowego nie powiódł się");
 }
-
 #[macro_export]
 macro_rules! serial_print {
     ($($arg:tt)*) => {
-        $crate::serial::_print(format_args!($($arg)*));
+        $crate::serial::_print(format_args!($($arg)*))
     };
 }
 
 #[macro_export]
 macro_rules! serial_println {
-    () => ($crate::serial_print!("\n"));
-    ($fmt:expr) => ($crate::serial_print!(concat!($fmt, "\n")));
-    ($fmt:expr, $($arg:tt)*) => ($crate::serial_print!(concat!($fmt, "\n"), $($arg)*));
+    () => {
+        $crate::serial_print!("\n")
+    };
+    ($fmt:expr) => {
+        $crate::serial_print!(concat!($fmt, "\n"))
+    };
+    ($fmt:expr, $($arg:tt)*) => {
+        $crate::serial_print!(concat!($fmt, "\n"), $($arg)*)
+    };
 }
