@@ -10,7 +10,6 @@ pub mod vga_buffer;
 use core::panic::PanicInfo;
 
 use bootloader_api::BootInfo;
-use framebuffer::{Color, FrameBufferWriter};
 
 pub struct Kernel;
 
@@ -28,31 +27,17 @@ impl Kernel {
 
         serial_println!("Loading cpu structures...");
 
-        interrupts::init();
-
-        serial_println!("Loaded");
-
         serial_println!("Initializing framebuffer");
         if let Some(framebuffer) = boot_info.framebuffer.as_mut() {
             let info = framebuffer.info();
             let buffer = framebuffer.buffer_mut();
-
-            let mut writer = FrameBufferWriter::new(buffer, info);
-
-            let white = Color {
-                r: 255,
-                g: 255,
-                b: 255,
-            };
-            let green = Color {
-                r: 0,
-                g: 255,
-                b: 100,
-            };
-
-            writer.write_string("Hello Hello\n", &white);
-            writer.write_string("Hello z Framebuffera!", &green);
+            framebuffer::init(buffer, info);
+            crate::fb_println!("Hello Hello");
+            crate::fb_print!("Hello z Framebuffera!");
         }
+
+        interrupts::init();
+        serial_println!("Loaded");
 
         serial_println!("Hlt loop");
         loop {

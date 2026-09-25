@@ -1,5 +1,9 @@
+use core::fmt;
+
 use bootloader_api::info::{FrameBufferInfo, PixelFormat};
 use font8x8::UnicodeFonts;
+use spin::Mutex;
+use x86_64::instructions::interrupts;
 
 const FONT_WIDTH: usize = 8;
 const FONT_HEIGHT: usize = 8;
@@ -15,6 +19,43 @@ pub struct FrameBufferWriter {
     info: FrameBufferInfo,
     x_pos: usize,
     y_pos: usize,
+}
+
+/// The framebuffer console, initialized once during kernel startup.
+pub static WRITER: Mutex<Option<FrameBufferWriter>> = Mutex::new(None);
+
+/// Install the framebuffer writer used by `fb_print!`.
+pub fn init(framebuffer: &'static mut [u8], info: FrameBufferInfo) {
+    let writer = FrameBufferWriter::new(framebuffer, info);
+    interrupts::without_interrupts(|| {
+        *WRITER.lock() = Some(writer);
+    });
+}
+
+/// Print formatted text to the framebuffer console.
+pub fn print(args: fmt::Arguments<'_>) {
+    interrupts::without_interrupts(|| {
+        if let Some(writer) = WRITER.lock().as_mut() {
+            let _ = writer.write_fmt(args);
+        }
+    });
+}
+
+#[macro_export]
+macro_rules! fb_print {
+    ($($arg:tt)*) => {
+        $crate::framebuffer::print(core::format_args!($($arg)*))
+    };
+}
+
+#[macro_export]
+macro_rules! fb_println {
+    () => {
+        $crate::fb_print!("\n")
+    };
+    ($($arg:tt)*) => {
+        $crate::fb_print!("{}\n", core::format_args!($($arg)*))
+    };
 }
 
 impl FrameBufferWriter {
@@ -107,5 +148,17 @@ impl FrameBufferWriter {
         if self.y_pos + FONT_HEIGHT >= self.info.height {
             self.y_pos = 0;
         }
+    }
+}
+
+impl fmt::Write for FrameBufferWriter {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        let white = Color {
+            r: 255,
+            g: 255,
+            b: 255,
+        };
+        self.write_string(s, &white);
+        Ok(())
     }
 }
