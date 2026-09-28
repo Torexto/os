@@ -5,7 +5,6 @@ pub mod framebuffer;
 pub mod interrupts;
 pub mod memory;
 pub mod serial;
-pub mod vga_buffer;
 
 use core::panic::PanicInfo;
 
@@ -32,15 +31,18 @@ impl Kernel {
             let info = framebuffer.info();
             let buffer = framebuffer.buffer_mut();
             framebuffer::init(buffer, info);
-            crate::fb_println!("Hello Hello");
-            crate::fb_print!("Hello z Framebuffera!");
         }
 
+        fb_println!("Hello World!");
+        fb_println!("It did not crash!");
+
         interrupts::init();
+
         serial_println!("Loaded");
 
         serial_println!("Hlt loop");
         loop {
+            serial_println!("loop");
             x86_64::instructions::hlt();
         }
     }

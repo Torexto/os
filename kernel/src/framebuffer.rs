@@ -1,4 +1,4 @@
-use core::fmt;
+use core::fmt::{self, Write};
 
 use bootloader_api::info::{FrameBufferInfo, PixelFormat};
 use font8x8::UnicodeFonts;
