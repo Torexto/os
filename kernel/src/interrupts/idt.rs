@@ -1,5 +1,5 @@
 use crate::interrupts::gdt;
-use crate::{fb_print, serial_println};
+use crate::{fb_print, hlt_loop, serial_println};
 use pic8259::ChainedPics;
 use spin::{Mutex, Once};
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
@@ -90,9 +90,14 @@ extern "x86-interrupt" fn page_fault_handler(
     stack_frame: InterruptStackFrame,
     error_code: PageFaultErrorCode,
 ) {
+    use x86_64::registers::control::Cr2;
+
     serial_println!("[EXCEPTION] PAGE FAULT!");
+    serial_println!("Accessed Address: {:?}", Cr2::read());
+    serial_println!("Error Code: {:?}", error_code);
     serial_println!("{:#?}", stack_frame);
-    serial_println!("{:#?}", error_code)
+
+    hlt_loop();
 }
 
 extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: InterruptStackFrame) {
